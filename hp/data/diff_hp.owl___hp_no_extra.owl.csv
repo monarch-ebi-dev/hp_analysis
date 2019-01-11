@@ -1,0 +1,4 @@
+super_label,o1,sub_iri,super_iri,sub_label,o2,category,
+Phenotypic abnormality,hp.owl,http://purl.obolibrary.org/obo/UPHENO_0001002,http://purl.obolibrary.org/obo/HP_0000118,abnormal phenotype,hp_no_extra.owl,o_not_o2,
+Phenotype,hp.owl,http://purl.obolibrary.org/obo/HP_0000118,http://purl.obolibrary.org/obo/UPHENO_0001001,Phenotypic abnormality,hp_no_extra.owl,o_not_o2,
+Nothing,hp.owl,http://www.w3.org/2002/07/owl#Nothing,http://www.w3.org/2002/07/owl#Nothing,Nothing,hp_no_extra.owl,unsat_both,

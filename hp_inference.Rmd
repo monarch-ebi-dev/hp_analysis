@@ -1,0 +1,60 @@
+---
+title: "Relation Ontology Usage"
+author: "Nicolas Matentzoglu"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+    html_document: default 
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r, echo=FALSE}
+library(data.table)
+library(stringr)
+library(plyr)
+library(ggplot2)
+library(DT)
+library(knitr)
+```
+
+```{r settings, echo=FALSE}
+ws = "rosurvey_obo.RData"
+datadir = "/ws/hp_analysis/hp/data/"
+fontsize=2
+options(scipen = 1000)
+opts_chunk$set(fig.width=8, fig.height=5, echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+```{r functions, echo=FALSE}
+pc<-function(x,y,digits=2) {
+  return(round(100*(x/y),digits))
+}
+
+theme_ro<-function(p) {
+  cls<-c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  p + theme_bw()+theme(axis.text.x = element_text(size=12),axis.text.y = element_text(size=12),axis.title = element_text(size=12)) + scale_fill_brewer(palette = "Paired") + scale_colour_brewer(palette = "Paired")
+ # +  scale_color_manual(values=cls) +   scale_fill_manual(values=cls)
+}
+
+kt<-function(x) {
+  return(kable(x,row.names = FALSE,digits = c(2)))
+}
+
+get_csv<-function(dir) {
+  temp = paste(dir,list.files(dir,pattern=paste("diff_.*.csv",sep="")),sep="")
+  temp = temp[file.size(temp) > 1]
+  
+  l <- lapply(temp, fread, sep=",",stringsAsFactors = FALSE,header=TRUE)
+  l <- mapply(cbind,l,csv=temp,SIMPLIFY = FALSE)
+  df <- rbindlist( l ,use.names = TRUE)
+  return(df)
+}
+```
+
+```{r load, echo=FALSE, cache=TRUE}
+df<-get_csv(datadir)
+df<-df[!(df$super_iri=="http://www.w3.org/2002/07/owl#Nothing"&df$sub_iri=="http://www.w3.org/2002/07/owl#Nothing"),]
+```
